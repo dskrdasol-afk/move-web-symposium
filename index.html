@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>MOVE 웹 심포지엄</title>
+  <style>
+    :root{
+      --bg:#f7f8fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb;
+      --primary:#2563eb; --primary-soft:#dbeafe; --done:#16a34a; --done-soft:#dcfce7;
+      --mkt:#7c3aed; --mkt-soft:#ede9fe; --note:#f8fafc; --note-line:#dbe3ef;
+      --radius:18px; --shadow:0 10px 28px rgba(15,23,42,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:760px;margin:0 auto;padding:16px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:20px}
+    h1,h2,h3,p{margin:0}
+    h1{font-size:26px;font-weight:800}
+    .sub{margin-top:8px;color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+    .field{display:grid;gap:6px}
+    .label{font-size:13px;font-weight:700;color:#374151}
+    input,textarea,button{font:inherit}
+    input,textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:#fff}
+    textarea{min-height:88px;resize:vertical}
+    .sticky-actions{position:sticky;top:10px;z-index:5;margin-top:14px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;padding:12px}
+    button{border:none;border-radius:14px;padding:11px 14px;font-weight:800;cursor:pointer}
+    .primary{background:var(--primary);color:#fff}
+    .soft{background:#eef2ff;color:#1f2937}
+    .ghost{background:#f8fafc;color:#374151;border:1px solid var(--line)}
+    .section{margin-top:14px;overflow:hidden}
+    .section-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .section-body{padding:14px 16px 16px}
+    .pill{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800}
+    .pill-blue{background:var(--primary-soft);color:#1d4ed8}
+    .pill-green{background:var(--done-soft);color:var(--done)}
+    .pill-mkt{background:var(--mkt-soft);color:var(--mkt)}
+    .progress{display:grid;gap:10px}
+    .bar{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+    .fill{height:100%;background:linear-gradient(90deg,#60a5fa,#2563eb);width:0%;transition:width .25s ease}
+    .step{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}
+    .step + .step{margin-top:12px}
+    .step-title{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .step-name{font-size:18px;font-weight:800}
+    .step-desc{font-size:13px;color:var(--muted);margin-top:6px}
+    .items{display:grid;gap:10px;margin-top:14px}
+    .item{display:flex;gap:10px;align-items:flex-start;border:1px solid #eef2f7;border-radius:14px;padding:12px;background:#fcfdff}
+    .item input[type="checkbox"]{width:21px;height:21px;margin-top:2px;accent-color:var(--primary)}
+    .item-title{font-size:15px;font-weight:800}
+    .item.locked{opacity:.45}
+    .item.locked input{pointer-events:none}
+    .detail-box{margin-top:6px;padding:10px 11px;border-radius:12px;background:var(--note);border:1px solid var(--note-line)}
+    .detail-line{font-size:12px;color:#475569;line-height:1.55}
+    .detail-line + .detail-line{margin-top:4px}
+    .done-badge{font-size:12px;font-weight:800;color:var(--done);margin-top:6px}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px}
+    .mkt-card{margin-top:10px;border:1px solid #ede9fe;border-radius:16px;background:#faf7ff;padding:12px}
+    .mkt-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0}
+    .mkt-row + .mkt-row{border-top:1px solid #ede9fe}
+    .mkt-check{width:22px;height:22px;border-radius:999px;background:var(--done-soft);color:var(--done);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex:0 0 22px;margin-top:1px}
+    .mkt-title{font-size:14px;font-weight:800}
+    .mkt-detail{font-size:12px;color:#6b7280;margin-top:4px;line-height:1.5}
+    .footer-note{padding:14px 18px;color:var(--muted);font-size:12px}
+    @media (max-width:640px){.grid{grid-template-columns:1fr} h1{font-size:23px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card hero">
+      <h1>MOVE 웹 심포지엄</h1>
+      <p class="sub">연자1(좌장)·연자2만 입력하고 바로 체크하면 됩니다. 이 기기 브라우저에 자동 저장됩니다.</p>
+      <div class="grid">
+        <div class="field">
+          <label class="label">연자1(좌장)</label>
+          <input id="speaker" placeholder="연자1(좌장) 이름" />
+        </div>
+        <div class="field">
+          <label class="label">연자2</label>
+          <input id="chair" placeholder="연자2 이름" />
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px;">
+        <label class="label">메모</label>
+        <textarea id="notes" placeholder="일정, 장소, 특이사항 등을 간단히 기록"></textarea>
+      </div>
+    </section>
+
+    <div class="sticky-actions">
+      <section class="card actions">
+        <button class="primary" id="resetBtn">새로 시작</button>
+        <button class="soft" id="expandBtn">전체 펼치기</button>
+        <button class="ghost" id="exportBtn">백업</button>
+        <span id="saveText" class="pill pill-blue">저장됨</span>
+      </section>
+    </div>
+
+    <section class="card section">
+      <div class="section-head">
+        <div>
+          <h2>진행률</h2>
+          <p class="sub" style="margin-top:6px">영업은 STEP 순서대로 체크됩니다. MKT는 완료 기준으로 표시됩니다.</p>
+        </div>
+        <span id="progressText" class="pill pill-green">0 / 6 완료</span>
+      </div>
+      <div class="section-body progress">
+        <div class="bar"><div id="progressFill" class="fill"></div></div>
+        <div id="currentStepText" class="hint"></div>
+      </div>
+    </section>
+
+    <section id="stepsRoot"></section>
+
+    <div class="footer-note">체크 내용은 자동 저장됩니다. 같은 아이폰/브라우저에서 다시 열면 이어서 볼 수 있습니다.</div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'move-web-symposium-simple-v2';
+
+    const steps = [
+      {
+        key: 'step1',
+        title: 'STEP 1',
+        desc: '행사 기본 확정',
+        salesItems: [
+          {
+            id: 'speaker_confirmed',
+            title: '연자 확정',
+            detailLines: [
+              '컨택 전 Speaker Evaluation 3점 이상 필수 확인',
+              'Board 취득 후 5년 이상 경력 여부',
+              '현재 직위가 Full/Associate/Assistant Professor인지 확인 (임상교수 제외)',
+              'Peer-reviewed 저널 5편 이상 발표 여부',
+              'Speaker 또는 Chair 경험 여부',
+              '학회 또는 위원회 직책 이력 여부'
+            ]
+          },
+          {
+            id: 'date_place_confirmed',
+            title: '일자 및 장소 확정',
+            detailLines: ['구글시트에서 가능 일자 및 장소 확인 후 에이전시 전달']
+          }
+        ],
+        mktItems: []
+      },
+      {
+        key: 'step2',
+        title: 'STEP 2',
+        desc: '마케팅 선행 완료',
+        salesItems: [],
+        mktItems: [
+          { title: '강연 기안', detail: '목적, 대상, 일정, 예산 포함' },
+          { title: '주제 선정', detail: '연자와 협의하여 최종 주제 확정' },
+          { title: '참고자료 슬라이드 제작 및 메일 전달', detail: '연자 참고자료 PPT 및 안내 메일 전달' }
+        ]
+      },
+      {
+        key: 'step3',
+        title: 'STEP 3 (실행일)',
+        desc: '영업 실행 준비 및 현장 운영',
+        salesItems: [
+          {
+            id: 'script_cv_review',
+            title: '좌장 스크립트 및 CV 검토',
+            detailLines: ['에이전시에서 준비합니다.', '오탈자 및 기본 정보만 검토해 주세요.']
+          },
+          {
+            id: 'pre_questions',
+            title: '사전 질문 준비',
+            detailLines: ['사전 질문을 구글시트에 업데이트']
+          },
+          {
+            id: 'contract_received',
+            title: '계약서 수취',
+            detailLines: ['서명 완료본 수령']
+          },
+          {
+            id: 'onsite_leading',
+            title: '현장 리딩',
+            detailLines: ['행사 진행 및 온라인 중계 모니터링']
+          }
+        ],
+        mktItems: [
+          { title: '계약서 확인', detail: '강연료, 조건, 서명란 검토 완료' },
+          { title: '강연 품의', detail: '내부 결재 프로세스 완료' }
+        ]
+      }
+    ];
+
+    const allSalesItems = steps.flatMap(step => step.salesItems);
+    const state = loadState();
+    let expanded = false;
+
+    const els = {
+      speaker: document.getElementById('speaker'),
+      chair: document.getElementById('chair'),
+      notes: document.getElementById('notes'),
+      progressText: document.getElementById('progressText'),
+      progressFill: document.getElementById('progressFill'),
+      currentStepText: document.getElementById('currentStepText'),
+      stepsRoot: document.getElementById('stepsRoot'),
+      saveText: document.getElementById('saveText'),
+      resetBtn: document.getElementById('resetBtn'),
+      expandBtn: document.getElementById('expandBtn'),
+      exportBtn: document.getElementById('exportBtn')
+    };
+
+    function defaultState() {
+      const checks = {};
+      allSalesItems.forEach(item => checks[item.id] = false);
+      return { speaker:'', chair:'', notes:'', checks };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const parsed = JSON.parse(raw);
+        return {
+          ...defaultState(),
+          ...parsed,
+          checks: { ...defaultState().checks, ...(parsed.checks || {}) }
+        };
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      els.saveText.textContent = '저장됨';
+      window.clearTimeout(save._timer);
+      save._timer = window.setTimeout(() => {
+        els.saveText.textContent = '자동 저장';
+      }, 1200);
+      renderProgress();
+      renderSteps();
+    }
+
+    function previousSalesDone(stepIndex) {
+      const prevItems = steps.slice(0, stepIndex).flatMap(step => step.salesItems);
+      return prevItems.every(item => state.checks[item.id]);
+    }
+
+    function canEditStep(stepIndex) {
+      if (expanded) return true;
+      return previousSalesDone(stepIndex);
+    }
+
+    function renderProgress() {
+      const done = allSalesItems.filter(item => state.checks[item.id]).length;
+      const total = allSalesItems.length;
+      const percent = Math.round((done / total) * 100);
+      els.progressText.textContent = `${done} / ${total} 완료`;
+      els.progressFill.style.width = `${percent}%`;
+
+      if (done === total) {
+        els.currentStepText.textContent = '영업 체크리스트가 모두 완료되었습니다.';
+        return;
+      }
+      const firstOpenStep = steps.findIndex((step, idx) => canEditStep(idx) && step.salesItems.some(item => !state.checks[item.id]));
+      if (firstOpenStep === -1) {
+        els.currentStepText.textContent = '현재 진행 가능한 영업 항목을 확인해 주세요.';
+      } else {
+        els.currentStepText.textContent = `지금 진행할 STEP: ${steps[firstOpenStep].title}`;
+      }
+    }
+
+    function renderMkt(step) {
+      if (!step.mktItems.length) return '';
+      return `
+        <div class="mkt-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+            <div>
+              <div class="mkt-title">MKT 완료 항목</div>
+              <div class="mkt-detail">확인용으로만 표시됩니다.</div>
+            </div>
+            <span class="pill pill-mkt">${step.mktItems.length}/${step.mktItems.length} 완료</span>
+          </div>
+          ${step.mktItems.map(item => `
+            <div class="mkt-row">
+              <div class="mkt-check">✓</div>
+              <div>
+                <div class="mkt-title">${item.title}</div>
+                <div class="mkt-detail">${item.detail}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderSalesItem(item, editable) {
+      const detailHtml = item.detailLines && item.detailLines.length
+        ? `<div class="detail-box">${item.detailLines.map(line => `<div class="detail-line">${line}</div>`).join('')}</div>`
+        : '';
+      return `
+        <label class="item ${editable ? '' : 'locked'}">
+          <input type="checkbox" data-id="${item.id}" ${state.checks[item.id] ? 'checked' : ''} ${editable ? '' : 'disabled'} />
+          <div>
+            <div class="item-title">${item.title}</div>
+            ${detailHtml}
+            ${state.checks[item.id] ? '<div class="done-badge">완료됨</div>' : ''}
+          </div>
+        </label>
+      `;
+    }
+
+    function renderSteps() {
+      els.stepsRoot.innerHTML = steps.map((step, stepIndex) => {
+        const editable = canEditStep(stepIndex);
+        const doneCount = step.salesItems.filter(item => state.checks[item.id]).length;
+        const salesHtml = step.salesItems.length
+          ? `<div class="items">${step.salesItems.map(item => renderSalesItem(item, editable)).join('')}</div>`
+          : '';
+        const lockHint = (!editable && step.salesItems.length) ? '<div class="hint">이전 STEP의 영업 항목을 모두 완료하면 체크할 수 있습니다.</div>' : '';
+        return `
+          <section class="card step">
+            <div class="step-title">
+              <div>
+                <div class="step-name">${step.title}</div>
+                <div class="step-desc">${step.desc}</div>
+              </div>
+              <span class="pill ${step.salesItems.length && doneCount === step.salesItems.length ? 'pill-green' : 'pill-blue'}">${step.salesItems.length ? `${doneCount}/${step.salesItems.length}` : 'MKT'}</span>
+            </div>
+            ${salesHtml}
+            ${renderMkt(step)}
+            ${lockHint}
+          </section>
+        `;
+      }).join('');
+
+      els.stepsRoot.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+        chk.addEventListener('change', e => {
+          state.checks[e.target.dataset.id] = e.target.checked;
+          save();
+        });
+      });
+    }
+
+    function bindInput(el, key) {
+      el.value = state[key] || '';
+      const handler = () => {
+        state[key] = el.value;
+        save();
+      };
+      el.addEventListener('input', handler);
+      el.addEventListener('change', handler);
+    }
+
+    function exportBackup() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'move-web-symposium-backup.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function resetAll() {
+      if (!confirm('전체 내용을 지우고 새로 시작할까요?')) return;
+      const fresh = defaultState();
+      Object.keys(state).forEach(k => delete state[k]);
+      Object.assign(state, fresh);
+      bindValuesOnly();
+      save();
+    }
+
+    function bindValuesOnly() {
+      els.speaker.value = state.speaker || '';
+      els.chair.value = state.chair || '';
+      els.notes.value = state.notes || '';
+    }
+
+    bindInput(els.speaker, 'speaker');
+    bindInput(els.chair, 'chair');
+    bindInput(els.notes, 'notes');
+
+    els.resetBtn.addEventListener('click', resetAll);
+    els.exportBtn.addEventListener('click', exportBackup);
+    els.expandBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      els.expandBtn.textContent = expanded ? '순서대로 보기' : '전체 펼치기';
+      renderSteps();
+      renderProgress();
+    });
+
+    bindValuesOnly();
+    renderProgress();
+    renderSteps();
+  </script>
+</body>
+</html>
