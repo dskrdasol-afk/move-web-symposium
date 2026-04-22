@@ -1,395 +1,306 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>MOVE 웹 심포지엄</title>
-  <style>
-    :root{
-      --bg:#f7f8fb; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb;
-      --primary:#2563eb; --primary-soft:#dbeafe; --done:#16a34a; --done-soft:#dcfce7;
-      --mkt:#7c3aed; --mkt-soft:#ede9fe; --note:#f8fafc; --note-line:#dbe3ef;
-      --radius:18px; --shadow:0 10px 28px rgba(15,23,42,.08);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:760px;margin:0 auto;padding:16px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hero{padding:20px}
-    h1,h2,h3,p{margin:0}
-    h1{font-size:26px;font-weight:800}
-    .sub{margin-top:8px;color:var(--muted);font-size:14px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-    .field{display:grid;gap:6px}
-    .label{font-size:13px;font-weight:700;color:#374151}
-    input,textarea,button{font:inherit}
-    input,textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:#fff}
-    textarea{min-height:88px;resize:vertical}
-    .sticky-actions{position:sticky;top:10px;z-index:5;margin-top:14px}
-    .actions{display:flex;gap:8px;flex-wrap:wrap;padding:12px}
-    button{border:none;border-radius:14px;padding:11px 14px;font-weight:800;cursor:pointer}
-    .primary{background:var(--primary);color:#fff}
-    .soft{background:#eef2ff;color:#1f2937}
-    .ghost{background:#f8fafc;color:#374151;border:1px solid var(--line)}
-    .section{margin-top:14px;overflow:hidden}
-    .section-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}
-    .section-body{padding:14px 16px 16px}
-    .pill{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800}
-    .pill-blue{background:var(--primary-soft);color:#1d4ed8}
-    .pill-green{background:var(--done-soft);color:var(--done)}
-    .pill-mkt{background:var(--mkt-soft);color:var(--mkt)}
-    .progress{display:grid;gap:10px}
-    .bar{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden}
-    .fill{height:100%;background:linear-gradient(90deg,#60a5fa,#2563eb);width:0%;transition:width .25s ease}
-    .step{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}
-    .step + .step{margin-top:12px}
-    .step-title{display:flex;justify-content:space-between;gap:10px;align-items:center}
-    .step-name{font-size:18px;font-weight:800}
-    .step-desc{font-size:13px;color:var(--muted);margin-top:6px}
-    .items{display:grid;gap:10px;margin-top:14px}
-    .item{display:flex;gap:10px;align-items:flex-start;border:1px solid #eef2f7;border-radius:14px;padding:12px;background:#fcfdff}
-    .item input[type="checkbox"]{width:21px;height:21px;margin-top:2px;accent-color:var(--primary)}
-    .item-title{font-size:15px;font-weight:800}
-    .item.locked{opacity:.45}
-    .item.locked input{pointer-events:none}
-    .detail-box{margin-top:6px;padding:10px 11px;border-radius:12px;background:var(--note);border:1px solid var(--note-line)}
-    .detail-line{font-size:12px;color:#475569;line-height:1.55}
-    .detail-line + .detail-line{margin-top:4px}
-    .done-badge{font-size:12px;font-weight:800;color:var(--done);margin-top:6px}
-    .hint{font-size:12px;color:var(--muted);margin-top:8px}
-    .mkt-card{margin-top:10px;border:1px solid #ede9fe;border-radius:16px;background:#faf7ff;padding:12px}
-    .mkt-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0}
-    .mkt-row + .mkt-row{border-top:1px solid #ede9fe}
-    .mkt-check{width:22px;height:22px;border-radius:999px;background:var(--done-soft);color:var(--done);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex:0 0 22px;margin-top:1px}
-    .mkt-title{font-size:14px;font-weight:800}
-    .mkt-detail{font-size:12px;color:#6b7280;margin-top:4px;line-height:1.5}
-    .footer-note{padding:14px 18px;color:var(--muted);font-size:12px}
-    @media (max-width:640px){.grid{grid-template-columns:1fr} h1{font-size:23px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>MOVE 웹심포지엄 체크리스트</title>
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin:0; padding:0 0 60px; background:#f0f2f5; font-family:-apple-system, Arial, sans-serif; font-size:14px; color:#1a1a2e; }
+.outer { max-width:600px; margin:0 auto; background:#fff; min-height:100vh; }
+.header { background:#1E3A5F; padding:20px 20px 16px; position:sticky; top:0; z-index:10; }
+.header-top { display:flex; align-items:flex-start; justify-content:space-between; }
+.header-label { display:inline-block; background:#2E6DB4; color:#fff; font-size:11px; font-weight:bold; letter-spacing:1px; padding:3px 10px; border-radius:20px; margin-bottom:8px; }
+.header h1 { margin:0 0 3px; color:#fff; font-size:19px; font-weight:bold; }
+.header p  { margin:0; color:#A8C4E0; font-size:12px; }
+.save-status { font-size:11px; color:#A8C4E0; text-align:right; min-width:80px; line-height:1.8; }
+.save-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#4ade80; margin-right:4px; vertical-align:middle; }
+.progress-wrap { padding:10px 0 0; }
+.progress-meta { display:flex; justify-content:space-between; font-size:12px; color:#A8C4E0; margin-bottom:6px; }
+.progress-track { background:rgba(255,255,255,0.2); border-radius:99px; height:7px; overflow:hidden; }
+.progress-fill  { height:7px; border-radius:99px; background:#4ade80; width:0%; transition:width 0.35s ease; }
+.notice { margin-top:10px; padding:8px 0 2px; font-size:11px; color:rgba(168,196,224,0.85); line-height:1.6; text-align:center; }
+.event-box { margin:16px 20px; padding:14px 16px; background:#F8FAFC; border:1px solid #e5e7eb; border-radius:10px; }
+.event-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.event-row:last-child { margin-bottom:0; }
+.event-label { font-size:12px; font-weight:bold; color:#6b7280; white-space:nowrap; min-width:90px; }
+.event-input { flex:1; height:36px; border:1px solid #e5e7eb; border-radius:6px; padding:0 10px; font-size:13px; color:#111827; font-family:-apple-system, Arial, sans-serif; background:#fff; outline:none; }
+.event-input:focus { border-color:#2E6DB4; }
+.event-input::placeholder { color:#c4c4c4; }
+.section { padding:18px 20px 6px; }
+.section-title { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.step-badge { font-size:11px; font-weight:bold; padding:3px 10px; border-radius:20px; letter-spacing:0.5px; white-space:nowrap; }
+.step-badge.mr  { background:#DBEAFE; color:#1E3A5F; }
+.step-badge.mkt { background:#F3F4F6; color:#6b7280; }
+.section-name { font-size:13px; font-weight:bold; color:#374151; }
+.item { display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; margin-bottom:7px; cursor:pointer; user-select:none; }
+.item:active { background:#f3f4f6; }
+.item.done { background:#f0fdf4; border-color:#bbf7d0; }
+.item.done .item-label { text-decoration:line-through; color:#9ca3af; }
+.item.done .item-sub   { color:#c4c4c4; }
+.item.done .item-note  { opacity:0.4; }
+.cb { width:22px; height:22px; flex-shrink:0; border:2px solid #d1d5db; border-radius:6px; background:#fff; position:relative; transition:all 0.15s; }
+.cb.checked { background:#2E6DB4; border-color:#2E6DB4; }
+.cb.checked::after { content:''; position:absolute; left:4px; top:2px; width:10px; height:6px; border-left:2.5px solid #fff; border-bottom:2.5px solid #fff; transform:rotate(-45deg); }
+.item-mkt { display:flex; align-items:flex-start; gap:12px; padding:11px 14px; border-radius:8px; border:1px dashed #e5e7eb; background:#fafafa; margin-bottom:7px; opacity:0.65; }
+.mkt-icon { width:22px; height:22px; flex-shrink:0; border-radius:6px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; font-size:12px; color:#9ca3af; }
+.item-body  { flex:1; min-width:0; }
+.item-label { font-size:14px; color:#111827; line-height:1.4; font-weight:500; }
+.item-sub   { font-size:12px; color:#6b7280; margin-top:4px; line-height:1.6; }
+.item-sub ul { margin:5px 0 0; padding-left:16px; }
+.item-sub ul li { margin-bottom:3px; }
+.item-note  { margin-top:6px; font-size:11px; color:#2E6DB4; background:#EFF6FF; border-left:3px solid #2E6DB4; padding:5px 8px; border-radius:0 4px 4px 0; line-height:1.5; }
+.item-link  { display:inline-block; margin-top:6px; font-size:11px; color:#2E6DB4; word-break:break-all; }
+.mkt-label  { font-size:14px; color:#9ca3af; line-height:1.4; }
+hr { border:none; border-top:6px solid #f0f2f5; margin:6px 0; }
+.memo-wrap  { padding:14px 20px; }
+.memo-label { font-size:12px; font-weight:bold; color:#6b7280; margin-bottom:6px; }
+.memo-box { width:100%; min-height:80px; border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; font-size:13px; color:#374151; font-family:-apple-system, Arial, sans-serif; resize:vertical; background:#fafafa; outline:none; }
+.memo-box:focus { border-color:#2E6DB4; background:#fff; }
+.footer { padding:12px 20px 24px; }
+.reset-btn { width:100%; padding:12px; border:1px solid #e5e7eb; border-radius:8px; background:#fff; color:#9ca3af; font-size:13px; cursor:pointer; transition:all 0.2s; }
+.reset-btn.confirm-mode { background:#FEF2F2; border-color:#FECACA; color:#DC2626; }
+.reset-hint { text-align:center; font-size:11px; color:#EF4444; margin-top:6px; display:none; }
+.reset-hint.show { display:block; }
+.footer-note { text-align:center; font-size:11px; color:#c4c4c4; margin-top:10px; }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="card hero">
-      <h1>MOVE 웹 심포지엄</h1>
-      <p class="sub">연자1(좌장)·연자2만 입력하고 바로 체크하면 됩니다. 이 기기 브라우저에 자동 저장됩니다.</p>
-      <div class="grid">
-        <div class="field">
-          <label class="label">연자1(좌장)</label>
-          <input id="speaker" placeholder="연자1(좌장) 이름" />
-        </div>
-        <div class="field">
-          <label class="label">연자2</label>
-          <input id="chair" placeholder="연자2 이름" />
-        </div>
-      </div>
-      <div class="field" style="margin-top:12px;">
-        <label class="label">메모</label>
-        <textarea id="notes" placeholder="일정, 장소, 특이사항 등을 간단히 기록"></textarea>
-      </div>
-    </section>
+<div class="outer">
 
-    <div class="sticky-actions">
-      <section class="card actions">
-        <button class="primary" id="resetBtn">새로 시작</button>
-        <button class="soft" id="expandBtn">전체 펼치기</button>
-        <button class="ghost" id="exportBtn">백업</button>
-        <span id="saveText" class="pill pill-blue">저장됨</span>
-      </section>
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="header-label">MR 전용</div>
+        <h1>MOVE 웹심포지엄 체크리스트</h1>
+        <p>항목을 탭하여 체크 · 자동 저장</p>
+      </div>
+      <div class="save-status">
+        <span class="save-dot" id="save-dot"></span>
+        <span id="save-label">불러오는 중</span>
+      </div>
     </div>
-
-    <section class="card section">
-      <div class="section-head">
-        <div>
-          <h2>진행률</h2>
-          <p class="sub" style="margin-top:6px">영업은 STEP 순서대로 체크됩니다. MKT는 완료 기준으로 표시됩니다.</p>
-        </div>
-        <span id="progressText" class="pill pill-green">0 / 6 완료</span>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span>MR 항목 진행률</span>
+        <span id="prog-label">0 / 6 완료</span>
       </div>
-      <div class="section-body progress">
-        <div class="bar"><div id="progressFill" class="fill"></div></div>
-        <div id="currentStepText" class="hint"></div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-bar"></div>
       </div>
-    </section>
-
-    <section id="stepsRoot"></section>
-
-    <div class="footer-note">체크 내용은 자동 저장됩니다. 같은 아이폰/브라우저에서 다시 열면 이어서 볼 수 있습니다.</div>
+    </div>
+    <div class="notice">MOVE 웹심포지엄 자기주도 체크리스트입니다. 마케팅에 공유되지 않습니다 · 이 기기 브라우저에 자동 저장됩니다</div>
   </div>
 
-  <script>
-    const STORAGE_KEY = 'move-web-symposium-simple-v2';
+  <div class="event-box">
+    <div class="event-row">
+      <span class="event-label">행사명</span>
+      <input class="event-input" id="ev-event" type="text" placeholder="예) 2025 MOVE 심포지엄" oninput="scheduleSave()">
+    </div>
+    <div class="event-row">
+      <span class="event-label">연자 1 (좌장)</span>
+      <input class="event-input" id="ev-chair" type="text" placeholder="이름 입력" oninput="scheduleSave()">
+    </div>
+    <div class="event-row">
+      <span class="event-label">연자 2</span>
+      <input class="event-input" id="ev-speaker" type="text" placeholder="이름 입력" oninput="scheduleSave()">
+    </div>
+  </div>
 
-    const steps = [
-      {
-        key: 'step1',
-        title: 'STEP 1',
-        desc: '행사 기본 확정',
-        salesItems: [
-          {
-            id: 'speaker_confirmed',
-            title: '연자 확정',
-            detailLines: [
-              '컨택 전 Speaker Evaluation 3점 이상 필수 확인',
-              'Board 취득 후 5년 이상 경력 여부',
-              '현재 직위가 Full/Associate/Assistant Professor인지 확인 (임상교수 제외)',
-              'Peer-reviewed 저널 5편 이상 발표 여부',
-              'Speaker 또는 Chair 경험 여부',
-              '학회 또는 위원회 직책 이력 여부'
-            ]
-          },
-          {
-            id: 'date_place_confirmed',
-            title: '일자 및 장소 확정',
-            detailLines: ['구글시트에서 가능 일자 및 장소 확인 후 에이전시 전달']
-          }
-        ],
-        mktItems: []
-      },
-      {
-        key: 'step2',
-        title: 'STEP 2',
-        desc: '마케팅 선행 완료',
-        salesItems: [],
-        mktItems: [
-          { title: '강연 기안', detail: '목적, 대상, 일정, 예산 포함' },
-          { title: '주제 선정', detail: '연자와 협의하여 최종 주제 확정' },
-          { title: '참고자료 슬라이드 제작 및 메일 전달', detail: '연자 참고자료 PPT 및 안내 메일 전달' }
-        ]
-      },
-      {
-        key: 'step3',
-        title: 'STEP 3 (실행일)',
-        desc: '영업 실행 준비 및 현장 운영',
-        salesItems: [
-          {
-            id: 'script_cv_review',
-            title: '좌장 스크립트 및 CV 검토',
-            detailLines: ['에이전시에서 준비합니다.', '오탈자 및 기본 정보만 검토해 주세요.']
-          },
-          {
-            id: 'pre_questions',
-            title: '사전 질문 준비',
-            detailLines: ['사전 질문을 구글시트에 업데이트']
-          },
-          {
-            id: 'contract_received',
-            title: '계약서 수취',
-            detailLines: ['서명 완료본 수령']
-          },
-          {
-            id: 'onsite_leading',
-            title: '현장 리딩',
-            detailLines: ['행사 진행 및 온라인 중계 모니터링']
-          }
-        ],
-        mktItems: [
-          { title: '계약서 확인', detail: '강연료, 조건, 서명란 검토 완료' },
-          { title: '강연 품의', detail: '내부 결재 프로세스 완료' }
-        ]
-      }
-    ];
-
-    const allSalesItems = steps.flatMap(step => step.salesItems);
-    const state = loadState();
-    let expanded = false;
-
-    const els = {
-      speaker: document.getElementById('speaker'),
-      chair: document.getElementById('chair'),
-      notes: document.getElementById('notes'),
-      progressText: document.getElementById('progressText'),
-      progressFill: document.getElementById('progressFill'),
-      currentStepText: document.getElementById('currentStepText'),
-      stepsRoot: document.getElementById('stepsRoot'),
-      saveText: document.getElementById('saveText'),
-      resetBtn: document.getElementById('resetBtn'),
-      expandBtn: document.getElementById('expandBtn'),
-      exportBtn: document.getElementById('exportBtn')
-    };
-
-    function defaultState() {
-      const checks = {};
-      allSalesItems.forEach(item => checks[item.id] = false);
-      return { speaker:'', chair:'', notes:'', checks };
-    }
-
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return defaultState();
-        const parsed = JSON.parse(raw);
-        return {
-          ...defaultState(),
-          ...parsed,
-          checks: { ...defaultState().checks, ...(parsed.checks || {}) }
-        };
-      } catch {
-        return defaultState();
-      }
-    }
-
-    function save() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      els.saveText.textContent = '저장됨';
-      window.clearTimeout(save._timer);
-      save._timer = window.setTimeout(() => {
-        els.saveText.textContent = '자동 저장';
-      }, 1200);
-      renderProgress();
-      renderSteps();
-    }
-
-    function previousSalesDone(stepIndex) {
-      const prevItems = steps.slice(0, stepIndex).flatMap(step => step.salesItems);
-      return prevItems.every(item => state.checks[item.id]);
-    }
-
-    function canEditStep(stepIndex) {
-      if (expanded) return true;
-      return previousSalesDone(stepIndex);
-    }
-
-    function renderProgress() {
-      const done = allSalesItems.filter(item => state.checks[item.id]).length;
-      const total = allSalesItems.length;
-      const percent = Math.round((done / total) * 100);
-      els.progressText.textContent = `${done} / ${total} 완료`;
-      els.progressFill.style.width = `${percent}%`;
-
-      if (done === total) {
-        els.currentStepText.textContent = '영업 체크리스트가 모두 완료되었습니다.';
-        return;
-      }
-      const firstOpenStep = steps.findIndex((step, idx) => canEditStep(idx) && step.salesItems.some(item => !state.checks[item.id]));
-      if (firstOpenStep === -1) {
-        els.currentStepText.textContent = '현재 진행 가능한 영업 항목을 확인해 주세요.';
-      } else {
-        els.currentStepText.textContent = `지금 진행할 STEP: ${steps[firstOpenStep].title}`;
-      }
-    }
-
-    function renderMkt(step) {
-      if (!step.mktItems.length) return '';
-      return `
-        <div class="mkt-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-            <div>
-              <div class="mkt-title">MKT 완료 항목</div>
-              <div class="mkt-detail">확인용으로만 표시됩니다.</div>
-            </div>
-            <span class="pill pill-mkt">${step.mktItems.length}/${step.mktItems.length} 완료</span>
-          </div>
-          ${step.mktItems.map(item => `
-            <div class="mkt-row">
-              <div class="mkt-check">✓</div>
-              <div>
-                <div class="mkt-title">${item.title}</div>
-                <div class="mkt-detail">${item.detail}</div>
-              </div>
-            </div>
-          `).join('')}
+  <!-- STEP 1 : MR -->
+  <div class="section">
+    <div class="section-title">
+      <span class="step-badge mr">STEP 1</span>
+      <span class="section-name">MR — 사전 준비</span>
+    </div>
+    <div class="item" data-id="s1-1" onclick="toggle(this)">
+      <div class="cb" id="cb-s1-1"></div>
+      <div class="item-body">
+        <div class="item-label">연자 확정</div>
+        <div class="item-sub">강연 의뢰 전 Speaker Evaluation 기준 확인 후 컨택
+          <ul>
+            <li>보드 취득 후 5년 이상 경력?</li>
+            <li>Full / Associate / Assistant Professor? (임상교수 해당 안됨)</li>
+            <li>Peer-reviewed journal 논문 5편 이상?</li>
+            <li>Speaker 또는 Chair 경험?</li>
+            <li>학회 또는 위원회 활동 이력?</li>
+          </ul>
         </div>
-      `;
-    }
+      </div>
+    </div>
+    <div class="item" data-id="s1-2" onclick="toggle(this)">
+      <div class="cb" id="cb-s1-2"></div>
+      <div class="item-body">
+        <div class="item-label">희망 일자 및 장소 마케팅 전달</div>
+        <div class="item-sub">연자와 협의한 희망 일정과 장소를 정리하여 담당 PM에게 전달 — 후보 일정이 여러 개라면 함께 전달</div>
+      </div>
+    </div>
+  </div>
 
-    function renderSalesItem(item, editable) {
-      const detailHtml = item.detailLines && item.detailLines.length
-        ? `<div class="detail-box">${item.detailLines.map(line => `<div class="detail-line">${line}</div>`).join('')}</div>`
-        : '';
-      return `
-        <label class="item ${editable ? '' : 'locked'}">
-          <input type="checkbox" data-id="${item.id}" ${state.checks[item.id] ? 'checked' : ''} ${editable ? '' : 'disabled'} />
-          <div>
-            <div class="item-title">${item.title}</div>
-            ${detailHtml}
-            ${state.checks[item.id] ? '<div class="done-badge">완료됨</div>' : ''}
-          </div>
-        </label>
-      `;
-    }
+  <hr>
 
-    function renderSteps() {
-      els.stepsRoot.innerHTML = steps.map((step, stepIndex) => {
-        const editable = canEditStep(stepIndex);
-        const doneCount = step.salesItems.filter(item => state.checks[item.id]).length;
-        const salesHtml = step.salesItems.length
-          ? `<div class="items">${step.salesItems.map(item => renderSalesItem(item, editable)).join('')}</div>`
-          : '';
-        const lockHint = (!editable && step.salesItems.length) ? '<div class="hint">이전 STEP의 영업 항목을 모두 완료하면 체크할 수 있습니다.</div>' : '';
-        return `
-          <section class="card step">
-            <div class="step-title">
-              <div>
-                <div class="step-name">${step.title}</div>
-                <div class="step-desc">${step.desc}</div>
-              </div>
-              <span class="pill ${step.salesItems.length && doneCount === step.salesItems.length ? 'pill-green' : 'pill-blue'}">${step.salesItems.length ? `${doneCount}/${step.salesItems.length}` : 'MKT'}</span>
-            </div>
-            ${salesHtml}
-            ${renderMkt(step)}
-            ${lockHint}
-          </section>
-        `;
-      }).join('');
+  <!-- STEP 2 : 마케팅 -->
+  <div class="section">
+    <div class="section-title">
+      <span class="step-badge mkt">STEP 2</span>
+      <span class="section-name" style="color:#9ca3af;">마케팅 진행 (참고)</span>
+    </div>
+    <div class="item-mkt">
+      <div class="mkt-icon">①</div>
+      <div class="item-body"><div class="mkt-label">일자·장소 확정 → 리딩 MR 전달</div></div>
+    </div>
+    <div class="item-mkt">
+      <div class="mkt-icon">②</div>
+      <div class="item-body"><div class="mkt-label">주제 선정 · 강연 기안</div></div>
+    </div>
+    <div class="item-mkt">
+      <div class="mkt-icon">③</div>
+      <div class="item-body"><div class="mkt-label">참고자료 슬라이드 제작 · 연자 메일 전달</div></div>
+    </div>
+  </div>
 
-      els.stepsRoot.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-        chk.addEventListener('change', e => {
-          state.checks[e.target.dataset.id] = e.target.checked;
-          save();
-        });
-      });
-    }
+  <hr>
 
-    function bindInput(el, key) {
-      el.value = state[key] || '';
-      const handler = () => {
-        state[key] = el.value;
-        save();
-      };
-      el.addEventListener('input', handler);
-      el.addEventListener('change', handler);
-    }
+  <!-- STEP 3 : MR -->
+  <div class="section">
+    <div class="section-title">
+      <span class="step-badge mr">STEP 3</span>
+      <span class="section-name">MR — 행사 전 준비</span>
+    </div>
+    <div class="item" data-id="s3-1" onclick="toggle(this)">
+      <div class="cb" id="cb-s3-1"></div>
+      <div class="item-body">
+        <div class="item-label">계약서 수취</div>
+        <div class="item-sub">ECM 계약서 확인 후 수정 → 연자 서명 → 마케팅 전달</div>
+        <div class="item-note">Portal 등록 계좌와 동일 계좌로 수령 / Vendor 등록 필요 시 신분증·통장 사본을 담당 PM에게 전달</div>
+      </div>
+    </div>
+    <div class="item" data-id="s3-2" onclick="toggle(this)">
+      <div class="cb" id="cb-s3-2"></div>
+      <div class="item-body">
+        <div class="item-label">사전 질문 준비</div>
+        <div class="item-sub">사전 질문 정리 후 구글시트에 업데이트 (링크는 ECM에서 확인)</div>
+        <a class="item-link" href="https://docs.google.com/spreadsheets/d/1SOlU417CUGS5W4L6RCvdpf1Cy3GXonNo-h-9Lox5NhY/edit?gid=435621601#gid=435621601" target="_blank">구글시트 바로가기 →</a>
+      </div>
+    </div>
+  </div>
 
-    function exportBackup() {
-      const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'move-web-symposium-backup.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    }
+  <hr>
 
-    function resetAll() {
-      if (!confirm('전체 내용을 지우고 새로 시작할까요?')) return;
-      const fresh = defaultState();
-      Object.keys(state).forEach(k => delete state[k]);
-      Object.assign(state, fresh);
-      bindValuesOnly();
-      save();
-    }
+  <!-- STEP 4 : MR 실행일 -->
+  <div class="section">
+    <div class="section-title">
+      <span class="step-badge mr">STEP 4 · 실행일</span>
+      <span class="section-name">MR — 현장 리딩</span>
+    </div>
+    <div class="item" data-id="s4-1" onclick="toggle(this)">
+      <div class="cb" id="cb-s4-1"></div>
+      <div class="item-body">
+        <div class="item-label">좌장 스크립트 및 CV 검토</div>
+        <div class="item-sub">이름, 병원명, 직책, 문구 오탈자 확인 → 수정 필요 시 메디칼타임즈에 공유</div>
+      </div>
+    </div>
+    <div class="item" data-id="s4-2" onclick="toggle(this)">
+      <div class="cb" id="cb-s4-2"></div>
+      <div class="item-body">
+        <div class="item-label">현장 리딩</div>
+        <div class="item-sub">진행 순서에 맞춰 전체 흐름 리딩 — 온라인 송출 상태, 발표·질의응답·마무리 모니터링</div>
+        <div class="item-note">최소 진행 시간 : 1인 강의 50분 · 2인 강의 60분</div>
+      </div>
+    </div>
+  </div>
 
-    function bindValuesOnly() {
-      els.speaker.value = state.speaker || '';
-      els.chair.value = state.chair || '';
-      els.notes.value = state.notes || '';
-    }
+  <hr>
 
-    bindInput(els.speaker, 'speaker');
-    bindInput(els.chair, 'chair');
-    bindInput(els.notes, 'notes');
+  <!-- STEP 5 마케팅 -->
+  <div class="section">
+    <div class="section-title">
+      <span class="step-badge mkt">STEP 5</span>
+      <span class="section-name" style="color:#9ca3af;">마케팅 진행 (참고)</span>
+    </div>
+    <div class="item-mkt">
+      <div class="mkt-icon">①</div>
+      <div class="item-body"><div class="mkt-label">계약서 확인 (강연료·계좌·서명)</div></div>
+    </div>
+    <div class="item-mkt">
+      <div class="mkt-icon">②</div>
+      <div class="item-body"><div class="mkt-label">강연 품의 진행</div></div>
+    </div>
+  </div>
 
-    els.resetBtn.addEventListener('click', resetAll);
-    els.exportBtn.addEventListener('click', exportBackup);
-    els.expandBtn.addEventListener('click', () => {
-      expanded = !expanded;
-      els.expandBtn.textContent = expanded ? '순서대로 보기' : '전체 펼치기';
-      renderSteps();
-      renderProgress();
-    });
+  <hr>
 
-    bindValuesOnly();
-    renderProgress();
-    renderSteps();
-  </script>
+  <div class="memo-wrap">
+    <div class="memo-label">현장 메모</div>
+    <textarea class="memo-box" id="memo" placeholder="특이사항, 요청사항 등 자유롭게 입력하세요..."></textarea>
+  </div>
+
+  <div class="footer">
+    <button class="reset-btn" id="reset-btn" onclick="handleReset()">전체 초기화</button>
+    <div class="reset-hint" id="reset-hint">한 번 더 탭하면 초기화됩니다</div>
+    <div class="footer-note">체크 상태는 이 기기 브라우저에 자동 저장됩니다</div>
+  </div>
+
+</div>
+<script>
+var KEY    = 'ws_cl_v4';
+var MR_IDS = ['s1-1','s1-2','s3-1','s3-2','s4-1','s4-2'];
+var timer = null; var resetTimer = null; var resetReady = false; var canSave = false;
+try { localStorage.setItem('_p','1'); localStorage.removeItem('_p'); canSave = true; } catch(e) {}
+function dot(ok) { document.getElementById('save-dot').style.background = ok ? '#4ade80' : '#facc15'; }
+function setLabel(t) { document.getElementById('save-label').textContent = t; }
+function applyDone(id, done) {
+  var el = document.querySelector('[data-id="'+id+'"]');
+  var cb = document.getElementById('cb-'+id);
+  if (!el||!cb) return;
+  el.classList.toggle('done', done); cb.classList.toggle('checked', done);
+}
+function load() {
+  if (!canSave) { dot(false); setLabel('저장 불가'); updateProgress(); return; }
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (!raw) { dot(true); setLabel('새 체크리스트'); updateProgress(); return; }
+    var d = JSON.parse(raw);
+    if (d.event)   document.getElementById('ev-event').value   = d.event;
+    if (d.chair)   document.getElementById('ev-chair').value   = d.chair;
+    if (d.speaker) document.getElementById('ev-speaker').value = d.speaker;
+    MR_IDS.forEach(function(id) { if (d.checks&&d.checks[id]) applyDone(id, true); });
+    if (d.memo) document.getElementById('memo').value = d.memo;
+    dot(true); setLabel(d.time ? d.time+' 저장' : '불러옴');
+  } catch(e) { dot(false); setLabel('오류'); }
+  updateProgress();
+}
+function save() {
+  if (!canSave) return;
+  try {
+    var checks = {};
+    MR_IDS.forEach(function(id) { var el=document.querySelector('[data-id="'+id+'"]'); checks[id]=el?el.classList.contains('done'):false; });
+    var n=new Date(), t=(n.getMonth()+1)+'/'+n.getDate()+' '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+    localStorage.setItem(KEY, JSON.stringify({ event:document.getElementById('ev-event').value, chair:document.getElementById('ev-chair').value, speaker:document.getElementById('ev-speaker').value, checks:checks, memo:document.getElementById('memo').value, time:t }));
+    dot(true); setLabel(t+' 저장');
+  } catch(e) { dot(false); setLabel('저장 실패'); }
+}
+function scheduleSave() { dot(false); setLabel('저장 중...'); clearTimeout(timer); timer=setTimeout(save,700); }
+function toggle(el) { applyDone(el.getAttribute('data-id'), !el.classList.contains('done')); updateProgress(); scheduleSave(); }
+document.getElementById('memo').addEventListener('input', scheduleSave);
+function updateProgress() {
+  var done=document.querySelectorAll('.item.done').length, total=MR_IDS.length;
+  document.getElementById('prog-bar').style.width=Math.round(done/total*100)+'%';
+  document.getElementById('prog-label').textContent=done+' / '+total+' 완료';
+}
+function handleReset() {
+  var btn=document.getElementById('reset-btn'), hint=document.getElementById('reset-hint');
+  if (!resetReady) {
+    resetReady=true; btn.classList.add('confirm-mode'); btn.textContent='정말 초기화할까요?'; hint.classList.add('show');
+    clearTimeout(resetTimer); resetTimer=setTimeout(function(){ resetReady=false; btn.classList.remove('confirm-mode'); btn.textContent='전체 초기화'; hint.classList.remove('show'); },3000);
+  } else {
+    resetReady=false; clearTimeout(resetTimer); btn.classList.remove('confirm-mode'); btn.textContent='전체 초기화'; hint.classList.remove('show');
+    ['ev-event','ev-chair','ev-speaker','memo'].forEach(function(id){ document.getElementById(id).value=''; });
+    MR_IDS.forEach(function(id){ applyDone(id,false); }); updateProgress(); save();
+  }
+}
+load();
+</script>
 </body>
 </html>
